@@ -126,13 +126,14 @@ Trailer:
 <p>GifDrawable的构造中线程控制在GifRenderingExecutor的单例当中。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">final class GifRenderingExecutor extends ScheduledThreadPoolExecutor &#123;</div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>而GifDrawable的渲染则在RenderTask中实现。<br></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">class RenderTask extends SafeRunnable &#123;</div><div class="line">	@Override</div><div class="line">	public void doWork() &#123;</div><div class="line">		...</div><div class="line">		final long invalidationDelay = mGifDrawable.mNativeInfoHandle.renderFrame(mGifDrawable.mBuffer);</div><div class="line">		</div><div class="line">		...</div><div class="line">		if (mGifDrawable.isVisible() &amp;&amp; !mGifDrawable.mInvalidationHandler.hasMessages(MSG_TYPE_INVALIDATION)) &#123;</div><div class="line">			mGifDrawable.mInvalidationHandler.sendEmptyMessageAtTime(MSG_TYPE_INVALIDATION, 0);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">abstract class SafeRunnable implements Runnable &#123;</div><div class="line">	@Override</div><div class="line">    public final void run()&#123;</div><div class="line">     	if (!mGifDrawable.isRecycled()) &#123;</div><div class="line">           doWork();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class InvalidationHandler extends Handler &#123;</div><div class="line">	@Override</div><div class="line">	public void handleMessage(final Message msg) &#123;</div><div class="line">		...</div><div class="line">		if (msg.what == MSG_TYPE_INVALIDATION) &#123;</div><div class="line">			gifDrawable.invalidateSelf();</div><div class="line">		&#125; </div><div class="line">		...</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>gifDrawable.invalidateSelf()这里在确认中.<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">class RenderTask extends SafeRunnable &#123;</div><div class="line">	@Override</div><div class="line">	public void doWork() &#123;</div><div class="line">		...</div><div class="line">		final long invalidationDelay = mGifDrawable.mNativeInfoHandle.renderFrame(mGifDrawable.mBuffer);</div><div class="line">		</div><div class="line">		...</div><div class="line">		if (mGifDrawable.isVisible() &amp;&amp; !mGifDrawable.mInvalidationHandler.hasMessages(MSG_TYPE_INVALIDATION)) &#123;</div><div class="line">			mGifDrawable.mInvalidationHandler.sendEmptyMessageAtTime(MSG_TYPE_INVALIDATION, 0);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">abstract class SafeRunnable implements Runnable &#123;</div><div class="line">	@Override</div><div class="line">    public final void run()&#123;</div><div class="line">     	if (!mGifDrawable.isRecycled()) &#123;</div><div class="line">           doWork();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class InvalidationHandler extends Handler &#123;</div><div class="line">	@Override</div><div class="line">	public void handleMessage(final Message msg) &#123;</div><div class="line">		...</div><div class="line">		if (msg.what == MSG_TYPE_INVALIDATION) &#123;</div><div class="line">			gifDrawable.invalidateSelf();</div><div class="line">		&#125; </div><div class="line">		...</div><div class="line">	&#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">class ImageView extends View &#123;</div><div class="line">	public void setImageDrawable(@Nullable Drawable drawable) &#123;</div><div class="line">		...</div><div class="line">		updateDrawable(drawable);</div><div class="line">		...</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	private void updateDrawable(Drawable d) &#123;</div><div class="line">		if (d != null) &#123;</div><div class="line">            d.setCallback(this);</div><div class="line">        &#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因此可以通过这样来完成图片的更换.</p>
+<p>GifInfoHandle -&gt; renderFrame() 进入本地frame的读取.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="cizgp93am0002gysetfhesg9v" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="cizgqup3b0003oqsedqbfg3j9" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -172,7 +173,7 @@ Trailer:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="cizgp93ak0001gyselcqdms8u" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="cizgqup300000oqselh7g1ojo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +247,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizgp93ad0000gyse9nlondvo" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizgqup360001oqsego609jnw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -283,7 +284,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="cizgp93ap0003gyseujjwsje3" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="cizgqup380002oqse9adzi4g1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -328,7 +329,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="cizgp93b90006gyseu3a3m9z2" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="cizgqup3c0004oqse07yx2jy5" class="article-share-link">Share</a>
       
       
     </footer>
