@@ -92,13 +92,14 @@
       
         <p>对于UniversalImageLoader，我们在网上可以看到非常多的源码分析。<br><br><a href="http://blog.csdn.net/xiaanming/article/details/26810303" target="_blank" rel="external">Android 开源框架Universal-Image-Loader完全解析（一）— 基本介绍及使用</a><br><br><a href="http://blog.csdn.net/xiaanming/article/details/27525741" target="_blank" rel="external">Android 开源框架Universal-Image-Loader完全解析（二）— 图片缓存策略详解</a><br><br><a href="http://blog.csdn.net/xiaanming/article/details/39057201" target="_blank" rel="external">Android 开源框架Universal-Image-Loader完全解析（三）—源代码解读</a><br></p>
 <p>ImageLoader有非常多的可配置项，添加Gif的支持，我们可以照着UniversalImageLoader的设计方式，进行处理.</p>
+<p>而使用的Gif库仅需要通过提供GifDrawable，即可完成 Gif的使用。<br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">public class LoadAndDisplayGifTask implements Runnable , IoUtils.CopyListener &#123;</div><div class="line">	@Override</div><div class="line">    public void run() &#123;</div><div class="line">    	</div><div class="line">    	ReentrantLock loadFromUriLock = this.imageLoadingInfo.loadFromUriLock;</div><div class="line">    	</div><div class="line">        L.d(&quot;Start display image task [%s]&quot;, new Object[]&#123;this.memoryCacheKey&#125;);</div><div class="line">        if(loadFromUriLock.isLocked()) &#123;</div><div class="line">            L.d(&quot;Image already is loading. Waiting... [%s]&quot;, new Object[]&#123;this.memoryCacheKey&#125;);</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        loadFromUriLock.lock();</div><div class="line"></div><div class="line">        File f;</div><div class="line"></div><div class="line">        again: &#123;</div><div class="line">            try &#123;</div><div class="line">                checkTaskNotActual();</div><div class="line">                f = tryLoadBitmap();</div><div class="line">                if(null == f) &#123;</div><div class="line">                    return ;</div><div class="line">                &#125;</div><div class="line">                break again;</div><div class="line"></div><div class="line">            &#125; catch (TaskCancelledException e) &#123;</div><div class="line">                this.fireCancelEvent();</div><div class="line">            &#125; finally &#123;</div><div class="line">                loadFromUriLock.unlock();</div><div class="line">            &#125;</div><div class="line">            return;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        DisplayGifTask displayBitmapTask = new DisplayGifTask(f, this.imageLoadingInfo, this.engine, this.loadedFrom);</div><div class="line">        runTask(displayBitmapTask, this.handler, this.engine);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">public class DisplayGifTask implements Runnable  &#123;</div><div class="line">	@Override</div><div class="line">    public void run()&#123;</div><div class="line">    	...</div><div class="line">    	try &#123;</div><div class="line">    		GifDrawable gifDrawable = new GifDrawable(gifFile);</div><div class="line">            gifImageAware.setImageDrawable(gifDrawable);</div><div class="line">        &#125; catch (IOException e) &#123;</div><div class="line">            e.printStackTrace();</div><div class="line">        &#125;</div><div class="line">        this.engine.cancelDisplayTaskFor(this.gifImageAware);</div><div class="line">    	...</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>Android Gif的库可以参考<a href="/2017/02/22/Android-gif-drawable/" title="Android_gif_drawable">Android_gif_drawable</a><br></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/23/Android-UniversalImageLoader/" data-id="cizi6can70000x9seie6muwl8" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/23/Android-UniversalImageLoader/" data-id="cizi6q0pn0000y2segv1mdzwg" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -175,7 +176,7 @@ Trailer:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="cizi6bh3r0004wxsexxm3yytv" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="cizi6q0q40005y2sepl23k4hx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -215,7 +216,7 @@ Trailer:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="cizi6bh3q0003wxse5uwm07k0" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="cizi6q0q00003y2sexjqal52i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +290,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizi6bh3t0005wxsefo0f31qt" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizi6q0ps0001y2seau0d0rgl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -326,7 +327,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="cizi6bh3v0007wxse7f13u1p0" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="cizi6q0q10004y2sepunt5ilh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -371,7 +372,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="cizi6bh460008wxsetpz0ae8v" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="cizi6q0q70007y2sees6nfrma" class="article-share-link">Share</a>
       
       
     </footer>
