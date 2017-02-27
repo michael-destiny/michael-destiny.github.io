@@ -68,6 +68,90 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-NodeJS-New01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/27/NodeJS-New01/" class="article-date">
+  <time datetime="2017-02-27T02:20:16.000Z" itemprop="datePublished">2017-02-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/27/NodeJS-New01/">NodeJS_New01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.zhihu.com/topic/19569535/top-answers" target="_blank" rel="external">https://www.zhihu.com/topic/19569535/top-answers</a><br></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://michael-destiny.github.io/2017/02/27/NodeJS-New01/" data-id="ciznqq8g5000aslsenshw1k35" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Android-OpenCV3-10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/24/Android-OpenCV3-10/" class="article-date">
+  <time datetime="2017-02-24T01:44:04.000Z" itemprop="datePublished">2017-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/24/Android-OpenCV3-10/">Android_OpenCV3.10</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Bitmap的可以参考<br></p>
+<p>libjnigraphics</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">int cv::floodFill( InputOutputArray _image, InputOutputArray _mask,</div><div class="line">                  Point seedPoint, Scalar newVal, Rect* rect,</div><div class="line">                  Scalar loDiff, Scalar upDiff, int flags )&#123;</div><div class="line">	...</div><div class="line">                  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>opencv中使用的是扫描线种子填充算法<br><br><a href="http://blog.csdn.net/orbit/article/details/7323090" target="_blank" rel="external">算法系列之十二：多边形区域填充算法－－递归种子填充算法</a><br><br>经典的种子填充算法比较简单，易懂。<br></p>
+<p>扫描线种子填充算法需要稍微理解下。<br></p>
+<p>Opencv里的具体代码如下:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div></pre></td><td class="code"><pre><div class="line">// Simple Floodfill (repainting single-color connected component)</div><div class="line"></div><div class="line">template&lt;typename _Tp&gt;</div><div class="line">static void</div><div class="line">floodFill_CnIR( Mat&amp; image, Point seed,</div><div class="line">               _Tp newVal, ConnectedComp* region, int flags,</div><div class="line">               std::vector&lt;FFillSegment&gt;* buffer )</div><div class="line">&#123;</div><div class="line">    _Tp* img = image.ptr&lt;_Tp&gt;(seed.y);</div><div class="line">    Size roi = image.size();</div><div class="line">    int i, L, R;</div><div class="line">    int area = 0;</div><div class="line">    int XMin, XMax, YMin = seed.y, YMax = seed.y;</div><div class="line">    int _8_connectivity = (flags &amp; 255) == 8;</div><div class="line">    FFillSegment* buffer_end = &amp;buffer-&gt;front() + buffer-&gt;size(), *head = &amp;buffer-&gt;front(), *tail = &amp;buffer-&gt;front();</div><div class="line"></div><div class="line">    L = R = XMin = XMax = seed.x;</div><div class="line"></div><div class="line">    _Tp val0 = img[L];</div><div class="line">    img[L] = newVal;</div><div class="line"></div><div class="line">    while( ++R &lt; roi.width &amp;&amp; img[R] == val0 )</div><div class="line">        img[R] = newVal;</div><div class="line"></div><div class="line">    while( --L &gt;= 0 &amp;&amp; img[L] == val0 )</div><div class="line">        img[L] = newVal;</div><div class="line"></div><div class="line">    XMax = --R;</div><div class="line">    XMin = ++L;</div><div class="line"></div><div class="line">	//放置新的种子，并把全长度作为维度2的条件进行判断。</div><div class="line">    ICV_PUSH( seed.y, L, R, R + 1, R, UP );</div><div class="line"></div><div class="line">    while( head != tail )</div><div class="line">    &#123;</div><div class="line">        int k, YC, PL, PR, dir;</div><div class="line">        ICV_POP( YC, L, R, PL, PR, dir );</div><div class="line"></div><div class="line">		/**</div><div class="line">		*					step 0</div><div class="line">		*			=======*000000*=====</div><div class="line">		*			****======**=====***</div><div class="line">		*				</div><div class="line">		*</div><div class="line">		*					step 1</div><div class="line">		*			=======*000000*=====</div><div class="line">		*			****111111**11111***	</div><div class="line">		*</div><div class="line">		*	</div><div class="line">		*					step 2</div><div class="line">		*			2222222*000000*=====</div><div class="line">		*			****111111**11111***</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*					step 3</div><div class="line">		*			2222222*000000*33333</div><div class="line">		*			****111111**11111***</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*	一共三个维度</div><div class="line">		*	1. 根据 联通度 8 或者 4分别取出判断目标方向上同等长度扫描线的元素来进行扫描，重复的点忽略。并将新的线段作为种子放入队列</div><div class="line">		*	</div><div class="line">		*	2. 根据联通度，然后关联当前扫描线段与原始线段分别在左边方向上端点差距,重新扫描，防止出现间隔点导致扫描不完全。</div><div class="line">		*	3.根据联通度，然后关联当前扫描线段与原始线段分别在右边方向上端点差距,重新扫描，防止出现间隔点导致扫描不完全。</div><div class="line">		*/</div><div class="line">        int data[][3] =</div><div class="line">        &#123;</div><div class="line">            &#123;-dir, L - _8_connectivity, R + _8_connectivity&#125;,</div><div class="line">            &#123;dir, L - _8_connectivity, PL - 1&#125;,</div><div class="line">            &#123;dir, PR + 1, R + _8_connectivity&#125;</div><div class="line">        &#125;;</div><div class="line">        </div><div class="line">		/**</div><div class="line">		*	进行三个维度的扫描</div><div class="line">		*/</div><div class="line">        for( k = 0; k &lt; 3; k++ )</div><div class="line">        &#123;</div><div class="line">            dir = data[k][0];</div><div class="line"></div><div class="line">            if( (unsigned)(YC + dir) &gt;= (unsigned)roi.height )</div><div class="line">                continue;</div><div class="line"></div><div class="line">            img = image.ptr&lt;_Tp&gt;(YC + dir);</div><div class="line">            int left = data[k][1];</div><div class="line">            int right = data[k][2];</div><div class="line">			/**</div><div class="line">			*	开始扫描线段差距</div><div class="line">			*/</div><div class="line">            for( i = left; i &lt;= right; i++ )</div><div class="line">            &#123;</div><div class="line">                if( (unsigned)i &lt; (unsigned)roi.width &amp;&amp; img[i] == val0 )</div><div class="line">                &#123;</div><div class="line">                    int j = i;</div><div class="line">                    img[i] = newVal;</div><div class="line">                    while( --j &gt;= 0 &amp;&amp; img[j] == val0 )</div><div class="line">                        img[j] = newVal;</div><div class="line"></div><div class="line">                    while( ++i &lt; roi.width &amp;&amp; img[i] == val0 )</div><div class="line">                        img[i] = newVal;</div><div class="line"></div><div class="line">                    ICV_PUSH( YC + dir, j+1, i-1, L, R, -dir );</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://michael-destiny.github.io/2017/02/24/Android-OpenCV3-10/" data-id="ciznqq8gh000hslsep8xplp8x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-opencv/">android opencv</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Android-UniversalImageLoader" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/02/23/Android-UniversalImageLoader/" class="article-date">
@@ -99,10 +183,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/23/Android-UniversalImageLoader/" data-id="cizi6q0pn0000y2segv1mdzwg" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/23/Android-UniversalImageLoader/" data-id="ciznqq8g30008slse5hvqquz5" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
 
     </footer>
   </div>
@@ -176,10 +260,10 @@ Trailer:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="cizi6q0q40005y2sepl23k4hx" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/22/Android-gif-drawable/" data-id="ciznqq8fv0005slseunpsh89r" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-gif/">android gif</a></li></ul>
 
     </footer>
   </div>
@@ -216,9 +300,11 @@ Trailer:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="cizi6q0q00003y2sexjqal52i" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Proxy/" data-id="ciznqq8ft0004slsevl2ut1d7" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
     </footer>
   </div>
   
@@ -269,30 +355,33 @@ Trailer:
 <p>Bitmap.java中涉及到的native的函数分别都在AndroidRuntime.cpp中进行注册.</p>
 <p>AndroidRuntime::start() -&gt; AndroidRuntime::startReg() -&gt; register_jni_procs() 进行register.</p>
 <p>例如:</p>
-<p>Bitmap.java中 createBitmap()方法，对应的native的函数是Bitmap.cpp中的 Bitmap_creator().</p>
-<p>jbyteArray buff = GraphicsJNI::allocateJavaPixelRef(env, &amp;bitmap, NULL);</p>
-<p>const size_t size = bitmap-&gt;getSize();<br>jbyteArray arrayObj = (jbyteArray) env-&gt;CallObjectMethod(gVMRuntime,gVMRuntime_newNonMovableArray,gByte_class, size);</p>
-<p>jbyte<em> addr = (jbyte</em>) env-&gt;CallLongMethod(gVMRuntime, gVMRuntime_addressOf, arrayObj);</p>
-<p>因此我们通过是通过Alloc java ByteArray作为图片的内存.</p>
+<p>Bitmap.java中 createBitmap()方法，对应的native的函数是Bitmap.cpp中的 Bitmap_creator().<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">static jobject Bitmap_creator(JNIEnv* env, jobject, jintArray jColors,</div><div class="line">                              jint offset, jint stride, jint width, jint height,</div><div class="line">                              jint configHandle, jboolean isMutable) &#123;</div><div class="line">                              </div><div class="line">	...</div><div class="line">	SkBitmap bitmap;</div><div class="line">    bitmap.setInfo(SkImageInfo::Make(width, height, colorType, kPremul_SkAlphaType));  </div><div class="line">    </div><div class="line">	jbyteArray buff = GraphicsJNI::allocateJavaPixelRef(env, &amp;bitmap, NULL);</div><div class="line">	</div><div class="line">	...</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">jbyteArray GraphicsJNI::allocateJavaPixelRef(JNIEnv* env, SkBitmap* bitmap,</div><div class="line">                                             SkColorTable* ctable) &#123;</div><div class="line">	...</div><div class="line">	const size_t size = bitmap-&gt;getSize();</div><div class="line">    jbyteArray arrayObj = (jbyteArray) env-&gt;CallObjectMethod(gVMRuntime, gVMRuntime_newNonMovableArray, gByte_class, size);</div><div class="line">    </div><div class="line">    jbyte* addr = (jbyte*) env-&gt;CallLongMethod(gVMRuntime, gVMRuntime_addressOf, arrayObj);</div><div class="line">    </div><div class="line">    SkPixelRef* pr = new AndroidPixelRef(env, info, (void*) addr,</div><div class="line">            bitmap-&gt;rowBytes(), arrayObj, ctable);</div><div class="line">    bitmap-&gt;setPixelRef(pr)-&gt;unref();</div><div class="line"></div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因此我们是通过Alloc java ByteArray作为图片的内存.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">AndroidPixelRef::AndroidPixelRef(JNIEnv* env, const SkImageInfo&amp; info, void* storage, size_t rowBytes, jbyteArray storageObj, SkColorTable* ctable) :</div><div class="line">        SkMallocPixelRef(info, storage, rowBytes, ctable, (storageObj == NULL)),</div><div class="line">        fWrappedPixelRef(NULL) &#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">SkMallocPixelRef::SkMallocPixelRef(const SkImageInfo&amp; info, void* storage,</div><div class="line">                                   size_t rowBytes, SkColorTable* ctable,</div><div class="line">                                   bool ownsPixels)</div><div class="line">    : INHERITED(info)</div><div class="line">    , fReleaseProc(ownsPixels ? sk_free_releaseproc : NULL)</div><div class="line">    , fReleaseProcContext(NULL) &#123;</div><div class="line">    </div><div class="line">    fStorage = storage;</div><div class="line">    ...</div><div class="line"></div><div class="line">    this-&gt;setPreLocked(fStorage, rowBytes, fCTable);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void SkPixelRef::setPreLocked(void* pixels, size_t rowBytes, SkColorTable* ctable) &#123;</div><div class="line"></div><div class="line">    fRec.fPixels = pixels;                                                                                                                                                   </div><div class="line">&#125;</div><div class="line"></div><div class="line">SkPixelRef* SkBitmap::setPixelRef(SkPixelRef* pr, int dx, int dy) &#123;</div><div class="line">	...</div><div class="line">	this-&gt;updatePixelsFromRef();</div><div class="line">	...</div><div class="line">&#125;</div><div class="line"></div><div class="line">void SkBitmap::updatePixelsFromRef() const &#123;                                                                                                                                 </div><div class="line">    void* p = fPixelRef-&gt;pixels();</div><div class="line">    fPixels = p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>AndroidPixelRef() -&gt; SkMallocPixelRef() -&gt; SkPixelRef::setPreLocked()保存内存指针.</p>
 <p>allocateJavaPixelRef() -&gt; SkBitmap::setPixelRef() -&gt; updatePixelsFromRef() -&gt; SkBitmap::updatePixelsFromRef()进行SkBitmap中内存指针的更新。</p>
 <p>SkBitmap::updatePixelsFromRef()方法在每次需要获取pixels指针之前都会调用，进行fPixels的更新.</p>
 <hr>
-<p>libjnigraphics: </p>
+<p>Jni主要使用的库如下:<br><br>libjnigraphics: </p>
 <pre><code>LOCAL_SRC_FILES:= \
     bitmap.cpp
 
 LOCAL_SHARED_LIBRARIES := \
     libandroid_runtime \
     libskia
-</code></pre><p>/Volumes/DISK/android-5.0/frameworks/base/native/graphics/jni/bitmap.cpp</p>
+</code></pre><p>/Volumes/DISK/android-5.0/frameworks/native/include/android/bitmap.h<br></p>
+<p>/Volumes/DISK/android-5.0/frameworks/base/native/graphics/jni/bitmap.cpp<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Given a java bitmap object, fill out the AndroidBitmap struct for it.</div><div class="line"> * If the call fails, the info parameter will be ignored</div><div class="line"> */</div><div class="line">int AndroidBitmap_getInfo(JNIEnv* env, jobject jbitmap,</div><div class="line">                          AndroidBitmapInfo* info);</div><div class="line"></div><div class="line">/**</div><div class="line"> * Given a java bitmap object, attempt to lock the pixel address.</div><div class="line"> * Locking will ensure that the memory for the pixels will not move</div><div class="line"> * until the unlockPixels call, and ensure that, if the pixels had been</div><div class="line"> * previously purged, they will have been restored.</div><div class="line"> *</div><div class="line"> * If this call succeeds, it must be balanced by a call to</div><div class="line"> * AndroidBitmap_unlockPixels, after which time the address of the pixels should</div><div class="line"> * no longer be used.</div><div class="line"> *</div><div class="line"> * If this succeeds, *addrPtr will be set to the pixel address. If the call</div><div class="line"> * fails, addrPtr will be ignored.</div><div class="line"> */</div><div class="line">int AndroidBitmap_lockPixels(JNIEnv* env, jobject jbitmap, void** addrPtr);</div><div class="line"></div><div class="line">/**</div><div class="line"> * Call this to balanace a successful call to AndroidBitmap_lockPixels</div><div class="line"> */</div><div class="line">int AndroidBitmap_unlockPixels(JNIEnv* env, jobject jbit                          map);</div></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizi6q0ps0001y2seau0d0rgl" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="ciznqq8fh0000slsehl5b0x9k" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
     </footer>
   </div>
   
@@ -327,9 +416,11 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="cizi6q0q10004y2sepunt5ilh" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/First-Day/" data-id="ciznqq8gb000dslsehwbs8av7" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/life/">life</a></li></ul>
+
     </footer>
   </div>
   
@@ -372,7 +463,7 @@ LOCAL_SHARED_LIBRARIES := \
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="cizi6q0q70007y2sees6nfrma" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/hello-world/" data-id="ciznqq8ge000fslsednc6vssb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -394,7 +485,7 @@ LOCAL_SHARED_LIBRARIES := \
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-gif/">android gif</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-opencv/">android opencv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
     </div>
   </div>
 
@@ -404,7 +495,7 @@ LOCAL_SHARED_LIBRARIES := \
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a>
+      <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/android-gif/" style="font-size: 10px;">android gif</a> <a href="/tags/android-opencv/" style="font-size: 10px;">android opencv</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </div>
   </div>
 
@@ -426,6 +517,14 @@ LOCAL_SHARED_LIBRARIES := \
       <ul>
         
           <li>
+            <a href="/2017/02/27/NodeJS-New01/">NodeJS_New01</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/24/Android-OpenCV3-10/">Android_OpenCV3.10</a>
+          </li>
+        
+          <li>
             <a href="/2017/02/23/Android-UniversalImageLoader/">Android_UniversalImageLoader</a>
           </li>
         
@@ -435,14 +534,6 @@ LOCAL_SHARED_LIBRARIES := \
         
           <li>
             <a href="/2017/02/21/Android-Proxy/">Android_Proxy</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/21/Android-Bitmap/">Android_Bitmap</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/21/First-Day/">First Day</a>
           </li>
         
       </ul>

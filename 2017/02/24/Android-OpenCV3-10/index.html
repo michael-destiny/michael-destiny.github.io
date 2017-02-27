@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android_OpenCV3.10 | michaelblog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android Bitmap的可以参考
+libjnigraphics
+123456int cv::floodFill( InputOutputArray _image, InputOutputArray _mask,                  Point seedPoint, Scalar newVal, Rect* rect,                  Scalar loDiff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android_OpenCV3.10">
+<meta property="og:url" content="http://michael-destiny.github.io/2017/02/24/Android-OpenCV3-10/index.html">
+<meta property="og:site_name" content="michaelblog">
+<meta property="og:description" content="Android Bitmap的可以参考
+libjnigraphics
+123456int cv::floodFill( InputOutputArray _image, InputOutputArray _mask,                  Point seedPoint, Scalar newVal, Rect* rect,                  Scalar loDiff">
+<meta property="og:updated_time" content="2017-02-27T06:31:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android_OpenCV3.10">
+<meta name="twitter:description" content="Android Bitmap的可以参考
+libjnigraphics
+123456int cv::floodFill( InputOutputArray _image, InputOutputArray _mask,                  Point seedPoint, Scalar newVal, Rect* rect,                  Scalar loDiff">
+  
+    <link rel="alternate" href="/atom.xml" title="michaelblog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">michaelblog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">m</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://michael-destiny.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Android-OpenCV3-10" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/24/Android-OpenCV3-10/" class="article-date">
+  <time datetime="2017-02-24T01:44:04.000Z" itemprop="datePublished">2017-02-24</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android_OpenCV3.10
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Bitmap的可以参考<br></p>
+<p>libjnigraphics</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">int cv::floodFill( InputOutputArray _image, InputOutputArray _mask,</div><div class="line">                  Point seedPoint, Scalar newVal, Rect* rect,</div><div class="line">                  Scalar loDiff, Scalar upDiff, int flags )&#123;</div><div class="line">	...</div><div class="line">                  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>opencv中使用的是扫描线种子填充算法<br><br><a href="http://blog.csdn.net/orbit/article/details/7323090" target="_blank" rel="external">算法系列之十二：多边形区域填充算法－－递归种子填充算法</a><br><br>经典的种子填充算法比较简单，易懂。<br></p>
+<p>扫描线种子填充算法需要稍微理解下。<br></p>
+<p>Opencv里的具体代码如下:<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div></pre></td><td class="code"><pre><div class="line">// Simple Floodfill (repainting single-color connected component)</div><div class="line"></div><div class="line">template&lt;typename _Tp&gt;</div><div class="line">static void</div><div class="line">floodFill_CnIR( Mat&amp; image, Point seed,</div><div class="line">               _Tp newVal, ConnectedComp* region, int flags,</div><div class="line">               std::vector&lt;FFillSegment&gt;* buffer )</div><div class="line">&#123;</div><div class="line">    _Tp* img = image.ptr&lt;_Tp&gt;(seed.y);</div><div class="line">    Size roi = image.size();</div><div class="line">    int i, L, R;</div><div class="line">    int area = 0;</div><div class="line">    int XMin, XMax, YMin = seed.y, YMax = seed.y;</div><div class="line">    int _8_connectivity = (flags &amp; 255) == 8;</div><div class="line">    FFillSegment* buffer_end = &amp;buffer-&gt;front() + buffer-&gt;size(), *head = &amp;buffer-&gt;front(), *tail = &amp;buffer-&gt;front();</div><div class="line"></div><div class="line">    L = R = XMin = XMax = seed.x;</div><div class="line"></div><div class="line">    _Tp val0 = img[L];</div><div class="line">    img[L] = newVal;</div><div class="line"></div><div class="line">    while( ++R &lt; roi.width &amp;&amp; img[R] == val0 )</div><div class="line">        img[R] = newVal;</div><div class="line"></div><div class="line">    while( --L &gt;= 0 &amp;&amp; img[L] == val0 )</div><div class="line">        img[L] = newVal;</div><div class="line"></div><div class="line">    XMax = --R;</div><div class="line">    XMin = ++L;</div><div class="line"></div><div class="line">	//放置新的种子，并把全长度作为维度2的条件进行判断。</div><div class="line">    ICV_PUSH( seed.y, L, R, R + 1, R, UP );</div><div class="line"></div><div class="line">    while( head != tail )</div><div class="line">    &#123;</div><div class="line">        int k, YC, PL, PR, dir;</div><div class="line">        ICV_POP( YC, L, R, PL, PR, dir );</div><div class="line"></div><div class="line">		/**</div><div class="line">		*					step 0</div><div class="line">		*			=======*000000*=====</div><div class="line">		*			****======**=====***</div><div class="line">		*				</div><div class="line">		*</div><div class="line">		*					step 1</div><div class="line">		*			=======*000000*=====</div><div class="line">		*			****111111**11111***	</div><div class="line">		*</div><div class="line">		*	</div><div class="line">		*					step 2</div><div class="line">		*			2222222*000000*=====</div><div class="line">		*			****111111**11111***</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*					step 3</div><div class="line">		*			2222222*000000*33333</div><div class="line">		*			****111111**11111***</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*</div><div class="line">		*	一共三个维度</div><div class="line">		*	1. 根据 联通度 8 或者 4分别取出判断目标方向上同等长度扫描线的元素来进行扫描，重复的点忽略。并将新的线段作为种子放入队列</div><div class="line">		*	</div><div class="line">		*	2. 根据联通度，然后关联当前扫描线段与原始线段分别在左边方向上端点差距,重新扫描，防止出现间隔点导致扫描不完全。</div><div class="line">		*	3.根据联通度，然后关联当前扫描线段与原始线段分别在右边方向上端点差距,重新扫描，防止出现间隔点导致扫描不完全。</div><div class="line">		*/</div><div class="line">        int data[][3] =</div><div class="line">        &#123;</div><div class="line">            &#123;-dir, L - _8_connectivity, R + _8_connectivity&#125;,</div><div class="line">            &#123;dir, L - _8_connectivity, PL - 1&#125;,</div><div class="line">            &#123;dir, PR + 1, R + _8_connectivity&#125;</div><div class="line">        &#125;;</div><div class="line">        </div><div class="line">		/**</div><div class="line">		*	进行三个维度的扫描</div><div class="line">		*/</div><div class="line">        for( k = 0; k &lt; 3; k++ )</div><div class="line">        &#123;</div><div class="line">            dir = data[k][0];</div><div class="line"></div><div class="line">            if( (unsigned)(YC + dir) &gt;= (unsigned)roi.height )</div><div class="line">                continue;</div><div class="line"></div><div class="line">            img = image.ptr&lt;_Tp&gt;(YC + dir);</div><div class="line">            int left = data[k][1];</div><div class="line">            int right = data[k][2];</div><div class="line">			/**</div><div class="line">			*	开始扫描线段差距</div><div class="line">			*/</div><div class="line">            for( i = left; i &lt;= right; i++ )</div><div class="line">            &#123;</div><div class="line">                if( (unsigned)i &lt; (unsigned)roi.width &amp;&amp; img[i] == val0 )</div><div class="line">                &#123;</div><div class="line">                    int j = i;</div><div class="line">                    img[i] = newVal;</div><div class="line">                    while( --j &gt;= 0 &amp;&amp; img[j] == val0 )</div><div class="line">                        img[j] = newVal;</div><div class="line"></div><div class="line">                    while( ++i &lt; roi.width &amp;&amp; img[i] == val0 )</div><div class="line">                        img[i] = newVal;</div><div class="line"></div><div class="line">                    ICV_PUSH( YC + dir, j+1, i-1, L, R, -dir );</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://michael-destiny.github.io/2017/02/24/Android-OpenCV3-10/" data-id="ciznqq8gh000hslsep8xplp8x" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android-opencv/">android opencv</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/27/NodeJS-New01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          NodeJS_New01
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/23/Android-UniversalImageLoader/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android_UniversalImageLoader</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-gif/">android gif</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-opencv/">android opencv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/android-gif/" style="font-size: 10px;">android gif</a> <a href="/tags/android-opencv/" style="font-size: 10px;">android opencv</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/02/27/NodeJS-New01/">NodeJS_New01</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/24/Android-OpenCV3-10/">Android_OpenCV3.10</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/23/Android-UniversalImageLoader/">Android_UniversalImageLoader</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/22/Android-gif-drawable/">Android_gif_drawable</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/21/Android-Proxy/">Android_Proxy</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 michael<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

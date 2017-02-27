@@ -21,7 +21,7 @@
 /Volumes/DISK/android-5.0/frameworks/base/graphics/java/android/graphics/BitmapFactory.java
 
 /Volumes/DI">
-<meta property="og:updated_time" content="2017-02-21T09:19:37.000Z">
+<meta property="og:updated_time" content="2017-02-24T07:24:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android_Bitmap">
 <meta name="twitter:description" content="涉及代码文件如下:
@@ -125,30 +125,33 @@
 <p>Bitmap.java中涉及到的native的函数分别都在AndroidRuntime.cpp中进行注册.</p>
 <p>AndroidRuntime::start() -&gt; AndroidRuntime::startReg() -&gt; register_jni_procs() 进行register.</p>
 <p>例如:</p>
-<p>Bitmap.java中 createBitmap()方法，对应的native的函数是Bitmap.cpp中的 Bitmap_creator().</p>
-<p>jbyteArray buff = GraphicsJNI::allocateJavaPixelRef(env, &amp;bitmap, NULL);</p>
-<p>const size_t size = bitmap-&gt;getSize();<br>jbyteArray arrayObj = (jbyteArray) env-&gt;CallObjectMethod(gVMRuntime,gVMRuntime_newNonMovableArray,gByte_class, size);</p>
-<p>jbyte<em> addr = (jbyte</em>) env-&gt;CallLongMethod(gVMRuntime, gVMRuntime_addressOf, arrayObj);</p>
-<p>因此我们通过是通过Alloc java ByteArray作为图片的内存.</p>
+<p>Bitmap.java中 createBitmap()方法，对应的native的函数是Bitmap.cpp中的 Bitmap_creator().<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">static jobject Bitmap_creator(JNIEnv* env, jobject, jintArray jColors,</div><div class="line">                              jint offset, jint stride, jint width, jint height,</div><div class="line">                              jint configHandle, jboolean isMutable) &#123;</div><div class="line">                              </div><div class="line">	...</div><div class="line">	SkBitmap bitmap;</div><div class="line">    bitmap.setInfo(SkImageInfo::Make(width, height, colorType, kPremul_SkAlphaType));  </div><div class="line">    </div><div class="line">	jbyteArray buff = GraphicsJNI::allocateJavaPixelRef(env, &amp;bitmap, NULL);</div><div class="line">	</div><div class="line">	...</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">jbyteArray GraphicsJNI::allocateJavaPixelRef(JNIEnv* env, SkBitmap* bitmap,</div><div class="line">                                             SkColorTable* ctable) &#123;</div><div class="line">	...</div><div class="line">	const size_t size = bitmap-&gt;getSize();</div><div class="line">    jbyteArray arrayObj = (jbyteArray) env-&gt;CallObjectMethod(gVMRuntime, gVMRuntime_newNonMovableArray, gByte_class, size);</div><div class="line">    </div><div class="line">    jbyte* addr = (jbyte*) env-&gt;CallLongMethod(gVMRuntime, gVMRuntime_addressOf, arrayObj);</div><div class="line">    </div><div class="line">    SkPixelRef* pr = new AndroidPixelRef(env, info, (void*) addr,</div><div class="line">            bitmap-&gt;rowBytes(), arrayObj, ctable);</div><div class="line">    bitmap-&gt;setPixelRef(pr)-&gt;unref();</div><div class="line"></div><div class="line">	...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>因此我们是通过Alloc java ByteArray作为图片的内存.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">AndroidPixelRef::AndroidPixelRef(JNIEnv* env, const SkImageInfo&amp; info, void* storage, size_t rowBytes, jbyteArray storageObj, SkColorTable* ctable) :</div><div class="line">        SkMallocPixelRef(info, storage, rowBytes, ctable, (storageObj == NULL)),</div><div class="line">        fWrappedPixelRef(NULL) &#123;</div><div class="line">    ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">SkMallocPixelRef::SkMallocPixelRef(const SkImageInfo&amp; info, void* storage,</div><div class="line">                                   size_t rowBytes, SkColorTable* ctable,</div><div class="line">                                   bool ownsPixels)</div><div class="line">    : INHERITED(info)</div><div class="line">    , fReleaseProc(ownsPixels ? sk_free_releaseproc : NULL)</div><div class="line">    , fReleaseProcContext(NULL) &#123;</div><div class="line">    </div><div class="line">    fStorage = storage;</div><div class="line">    ...</div><div class="line"></div><div class="line">    this-&gt;setPreLocked(fStorage, rowBytes, fCTable);</div><div class="line">&#125;</div><div class="line"></div><div class="line">void SkPixelRef::setPreLocked(void* pixels, size_t rowBytes, SkColorTable* ctable) &#123;</div><div class="line"></div><div class="line">    fRec.fPixels = pixels;                                                                                                                                                   </div><div class="line">&#125;</div><div class="line"></div><div class="line">SkPixelRef* SkBitmap::setPixelRef(SkPixelRef* pr, int dx, int dy) &#123;</div><div class="line">	...</div><div class="line">	this-&gt;updatePixelsFromRef();</div><div class="line">	...</div><div class="line">&#125;</div><div class="line"></div><div class="line">void SkBitmap::updatePixelsFromRef() const &#123;                                                                                                                                 </div><div class="line">    void* p = fPixelRef-&gt;pixels();</div><div class="line">    fPixels = p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>AndroidPixelRef() -&gt; SkMallocPixelRef() -&gt; SkPixelRef::setPreLocked()保存内存指针.</p>
 <p>allocateJavaPixelRef() -&gt; SkBitmap::setPixelRef() -&gt; updatePixelsFromRef() -&gt; SkBitmap::updatePixelsFromRef()进行SkBitmap中内存指针的更新。</p>
 <p>SkBitmap::updatePixelsFromRef()方法在每次需要获取pixels指针之前都会调用，进行fPixels的更新.</p>
 <hr>
-<p>libjnigraphics: </p>
+<p>Jni主要使用的库如下:<br><br>libjnigraphics: </p>
 <pre><code>LOCAL_SRC_FILES:= \
     bitmap.cpp
 
 LOCAL_SHARED_LIBRARIES := \
     libandroid_runtime \
     libskia
-</code></pre><p>/Volumes/DISK/android-5.0/frameworks/base/native/graphics/jni/bitmap.cpp</p>
+</code></pre><p>/Volumes/DISK/android-5.0/frameworks/native/include/android/bitmap.h<br></p>
+<p>/Volumes/DISK/android-5.0/frameworks/base/native/graphics/jni/bitmap.cpp<br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * Given a java bitmap object, fill out the AndroidBitmap struct for it.</div><div class="line"> * If the call fails, the info parameter will be ignored</div><div class="line"> */</div><div class="line">int AndroidBitmap_getInfo(JNIEnv* env, jobject jbitmap,</div><div class="line">                          AndroidBitmapInfo* info);</div><div class="line"></div><div class="line">/**</div><div class="line"> * Given a java bitmap object, attempt to lock the pixel address.</div><div class="line"> * Locking will ensure that the memory for the pixels will not move</div><div class="line"> * until the unlockPixels call, and ensure that, if the pixels had been</div><div class="line"> * previously purged, they will have been restored.</div><div class="line"> *</div><div class="line"> * If this call succeeds, it must be balanced by a call to</div><div class="line"> * AndroidBitmap_unlockPixels, after which time the address of the pixels should</div><div class="line"> * no longer be used.</div><div class="line"> *</div><div class="line"> * If this succeeds, *addrPtr will be set to the pixel address. If the call</div><div class="line"> * fails, addrPtr will be ignored.</div><div class="line"> */</div><div class="line">int AndroidBitmap_lockPixels(JNIEnv* env, jobject jbitmap, void** addrPtr);</div><div class="line"></div><div class="line">/**</div><div class="line"> * Call this to balanace a successful call to AndroidBitmap_lockPixels</div><div class="line"> */</div><div class="line">int AndroidBitmap_unlockPixels(JNIEnv* env, jobject jbit                          map);</div></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="cizi6q0ps0001y2seau0d0rgl" class="article-share-link">Share</a>
+      <a data-url="http://michael-destiny.github.io/2017/02/21/Android-Bitmap/" data-id="ciznqq8fh0000slsehl5b0x9k" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+
     </footer>
   </div>
   
@@ -186,7 +189,7 @@ LOCAL_SHARED_LIBRARIES := \
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-gif/">android gif</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android-opencv/">android opencv</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/life/">life</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nodejs/">nodejs</a></li></ul>
     </div>
   </div>
 
@@ -196,7 +199,7 @@ LOCAL_SHARED_LIBRARIES := \
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a>
+      <a href="/tags/android/" style="font-size: 20px;">android</a> <a href="/tags/android-gif/" style="font-size: 10px;">android gif</a> <a href="/tags/android-opencv/" style="font-size: 10px;">android opencv</a> <a href="/tags/life/" style="font-size: 10px;">life</a> <a href="/tags/nodejs/" style="font-size: 10px;">nodejs</a>
     </div>
   </div>
 
@@ -218,6 +221,14 @@ LOCAL_SHARED_LIBRARIES := \
       <ul>
         
           <li>
+            <a href="/2017/02/27/NodeJS-New01/">NodeJS_New01</a>
+          </li>
+        
+          <li>
+            <a href="/2017/02/24/Android-OpenCV3-10/">Android_OpenCV3.10</a>
+          </li>
+        
+          <li>
             <a href="/2017/02/23/Android-UniversalImageLoader/">Android_UniversalImageLoader</a>
           </li>
         
@@ -227,14 +238,6 @@ LOCAL_SHARED_LIBRARIES := \
         
           <li>
             <a href="/2017/02/21/Android-Proxy/">Android_Proxy</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/21/Android-Bitmap/">Android_Bitmap</a>
-          </li>
-        
-          <li>
-            <a href="/2017/02/21/First-Day/">First Day</a>
           </li>
         
       </ul>
